@@ -22,6 +22,7 @@ let elixir = createMindMap(mindData)
 
 $(document).ready(function () {
     elixir.init()
+    $(document).attr("title", E('root').nodeObj.topic)
     $("#map").css("height", window.innerHeight)
 })
 $(window).resize(function () {
@@ -48,6 +49,7 @@ $("#openFileDialog").change(function () {
             mindData = JSON.parse(tmpData.toString())
             elixir = createMindMap(mindData)
             elixir.init()
+            $(document).attr("title", E('root').nodeObj.topic)
         }
     }
 })
@@ -76,7 +78,7 @@ submenu.append(new nw.MenuItem({
 submenu.append(new nw.MenuItem({type: 'separator'}))
 submenu.append(new nw.MenuItem({
     label: '保存思维导图', key: "s", modifiers: ctrl, click: function () {
-        $(document).attr("title", E('root').nodeObj.topic);
+        $(document).attr("title", E('root').nodeObj.topic)
         if (savePath != "" && fs.existsSync(savePath)) {
             saveFile()
         } else {
