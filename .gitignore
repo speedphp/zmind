@@ -1,0 +1,9 @@
+/nwjs.app/
+/chromedriver
+/credits.html
+/libffmpeg.dylib
+/minidump_stackwalk
+/nwjc
+/payload
+/v8_context_snapshot.bin
+/.idea/

@@ -1,0 +1,5 @@
+{
+  "name": "helloworld",
+  "main": "main.html",
+  "single-instance" : false
+}
