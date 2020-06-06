@@ -76,6 +76,7 @@ submenu.append(new nw.MenuItem({
 submenu.append(new nw.MenuItem({type: 'separator'}))
 submenu.append(new nw.MenuItem({
     label: '保存思维导图', key: "s", modifiers: ctrl, click: function () {
+        $(document).attr("title", E('root').nodeObj.topic);
         if (savePath != "" && fs.existsSync(savePath)) {
             saveFile()
         } else {
@@ -90,6 +91,7 @@ submenu.append(new nw.MenuItem({
         nw.Window.get().close()
     }
 }))
+
 let topmenu = new nw.Menu({type: 'menubar'})
 topmenu.append(new nw.MenuItem({label: "zmind", submenu: submenu}))
 nw.Window.get().menu = topmenu
