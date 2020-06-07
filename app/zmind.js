@@ -55,12 +55,33 @@ $("#openFileDialog").change(function () {
         }
     }
 })
-
-elixir.bus.addListener('operation', function () {
+let selectNodeId = null
+let selectNodeIdHolder = null
+elixir.bus.addListener('operation', function (operation) {
     isSaved = false
+    if (operation.name == "beginEdit") {
+        selectNodeIdHolder = selectNodeId
+        selectNodeId = null
+    } else if (operation.name == "finishEdit") {
+        selectNodeId = selectNodeIdHolder
+    }
 })
-elixir.bus.addListener('selectNode', function () {
+elixir.bus.addListener('selectNode', function (node) {
     isSaved = false
+    selectNodeId = node.id
+})
+elixir.bus.addListener('unselectNode', function () {
+    selectNodeId = null
+})
+document.addEventListener("paste", function (e) {
+    if (selectNodeId != null) {
+        let clipboard = nw.Clipboard.get()
+        elixir.addChild(E(selectNodeId), {
+            topic: clipboard.get('text'),
+            id: generateUUID(),
+        })
+        e.preventDefault()
+    }
 })
 
 let ctrl = require("os").platform() == "darwin" ? "cmd" : "ctrl"
@@ -97,7 +118,9 @@ submenu.append(new nw.MenuItem({
 }))
 
 let topmenu = new nw.Menu({type: 'menubar'})
-topmenu.append(new nw.MenuItem({label: "zmind", submenu: submenu}))
+topmenu.createMacBuiltin("Zmind", {hideWindow: true})
+topmenu.append(new nw.MenuItem({label: "文件", submenu: submenu}))
+
 nw.Window.get().menu = topmenu
 nw.Window.get().on('close', function () {
     if (isSaved == true && savePath != "") {
@@ -128,3 +151,11 @@ function createMindMap(data) {
     })
 }
 
+function generateUUID() {
+    return (
+        new Date().getTime().toString(16) +
+        Math.random()
+            .toString(16)
+            .substr(2)
+    ).substr(2, 16)
+}
