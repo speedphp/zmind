@@ -22,8 +22,6 @@ let elixir = createMindMap(mindData)
 
 $(document).ready(function () {
     elixir.init()
-    // E('root').style.background = "#FF943E"
-    // E('root').style.color = "rgb(235,235,245)"
     $(document).attr("title", E('root').nodeObj.topic)
     $("#map").css("height", window.innerHeight)
 })
@@ -51,6 +49,7 @@ $("#openFileDialog").change(function () {
             mindData = JSON.parse(tmpData.toString())
             elixir = createMindMap(mindData)
             elixir.init()
+            savePath = filePath
             $(document).attr("title", E('root').nodeObj.topic)
         }
     }
@@ -133,7 +132,10 @@ nw.Window.get().on('close', function () {
 
 function saveFile() {
     if (isSaved != true) {
-        fs.writeFileSync(savePath, JSON.stringify(elixir.getAllData()))
+        let data = elixir.getAllData()
+        data.direction = elixir.direction
+        console.log(data)
+        fs.writeFileSync(savePath, JSON.stringify(data))
         isSaved = true
     }
 }
@@ -141,7 +143,7 @@ function saveFile() {
 function createMindMap(data) {
     return new MindElixir({
         el: '#map',
-        direction: MindElixir.LEFT,
+        direction: (data.direction == undefined) ? MindElixir.LEFT : data.direction,
         data: data,
         draggable: true,
         contextMenu: true,
