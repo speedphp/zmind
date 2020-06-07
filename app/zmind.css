@@ -21,7 +21,7 @@ body {
     .map-container .box t tpc {
         color: rgba(230, 230, 230, 0.82);
     }
-    .lt, .rb, nmenu, cmenu {
+    .lt, .rb, nmenu {
         background-color: rgb(230, 230, 230);
     }
 }
