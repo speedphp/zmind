@@ -82,6 +82,17 @@ document.addEventListener("paste", function (e) {
         e.preventDefault()
     }
 })
+let scale = 1
+document.getElementById('map').onwheel = function (e) {
+    if (e.wheelDelta && (e.metaKey || e.ctrlKey)) {
+        if (e.wheelDelta < 0) {
+            if (scale > 0.6) elixir.scale(scale -= .2)
+        } else {
+            if (scale < 1.6) elixir.scale(scale += .2)
+        }
+        return false;
+    }
+}
 
 let ctrl = require("os").platform() == "darwin" ? "cmd" : "ctrl"
 let submenu = new nw.Menu()
