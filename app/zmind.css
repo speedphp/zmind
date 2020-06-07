@@ -1,5 +1,6 @@
-body{
+body {
     margin: 0;
+    font-family: "PingFang SC", "San Francisco", "Microsoft Yahei", "STHeiti", "SimSun";
 }
 .outer {
     position: relative;
@@ -9,4 +10,18 @@ body{
     height: 500px;
     width: 100%;
     overflow: auto;
+}
+.map-container .box t tpc {
+    color: rgb(36, 36, 36);
+}
+@media (prefers-color-scheme: dark) {
+    .map-container .map-canvas {
+        background-color: rgb(36, 36, 36);
+    }
+    .map-container .box t tpc {
+        color: rgba(230, 230, 230, 0.82);
+    }
+    .lt, .rb, nmenu, cmenu {
+        background-color: rgb(230, 230, 230);
+    }
 }

@@ -22,6 +22,8 @@ let elixir = createMindMap(mindData)
 
 $(document).ready(function () {
     elixir.init()
+    // E('root').style.background = "#FF943E"
+    // E('root').style.color = "rgb(235,235,245)"
     $(document).attr("title", E('root').nodeObj.topic)
     $("#map").css("height", window.innerHeight)
 })
