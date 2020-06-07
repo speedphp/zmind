@@ -148,6 +148,7 @@ function createMindMap(data) {
         el: '#map',
         direction: (data.direction == undefined) ? MindElixir.LEFT : data.direction,
         data: data,
+        locale: 'cn',
         draggable: true,
         contextMenu: true,
         toolBar: true,

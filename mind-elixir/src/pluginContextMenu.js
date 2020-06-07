@@ -7,7 +7,7 @@ export default function(mind) {
     li.innerHTML = `<span>${name}</span><span>${keyname}</span>`
     return li
   }
-  let locale = i18n[mind.locale] ? mind.locale : 'en'
+  let locale = i18n[mind.locale] ? mind.locale : 'cn'
 
   let add_child = createLi('cm-add_child', i18n[locale].addChild, 'tab')
   let add_sibling = createLi('cm-add_sibling', i18n[locale].addSibling, 'enter')
