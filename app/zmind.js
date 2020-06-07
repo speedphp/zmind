@@ -103,6 +103,7 @@ submenu.append(new nw.MenuItem({
         $(document).attr("title", E('root').nodeObj.topic)
         if (savePath != "" && fs.existsSync(savePath)) {
             saveFile()
+
         } else {
             $("#saveFileDialog").attr("nwsaveas", E('root').nodeObj.topic + ".zm")
             $("#saveFileDialog").trigger("click")
@@ -134,9 +135,11 @@ function saveFile() {
     if (isSaved != true) {
         let data = elixir.getAllData()
         data.direction = elixir.direction
-        console.log(data)
         fs.writeFileSync(savePath, JSON.stringify(data))
         isSaved = true
+        setInterval(function () {
+            saveFile()
+        }, 1000 * 60)
     }
 }
 
