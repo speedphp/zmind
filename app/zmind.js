@@ -24,6 +24,7 @@ $(document).ready(function () {
     elixir.init()
     $(document).attr("title", E('root').nodeObj.topic)
     $("#map").css("height", window.innerHeight)
+    nw.Window.get().showDevTools()
 })
 $(window).resize(function () {
     $("#map").css("height", window.innerHeight)
@@ -82,6 +83,37 @@ document.addEventListener("paste", function (e) {
         e.preventDefault()
     }
 })
+document.addEventListener("copy", function (e) {
+    if (selectNodeId != null) {
+        console.log(findNodeData(selectNodeId))
+        e.preventDefault()
+    }
+})
+function findNodeData(selectNodeId) {
+    let nodeData = ""
+    function recursionNodeText(children, deep, isCurrentNode = false) {
+        for (let i = 0; i < children.length; i++) {
+            if(isCurrentNode == true){
+                nodeData += ''.padStart(deep, ' ')  + children[i].topic + '\n'
+            }
+            if (children[i].children) {
+                if (children[i].id == selectNodeId) {
+                    nodeData += ''.padStart(deep, ' ')  + children[i].topic + '\n'
+                    recursionNodeText(children[i].children, deep + 1, true)
+                } else {
+                    if(isCurrentNode)deep += 1
+                    recursionNodeText(children[i].children, deep, isCurrentNode)
+                }
+            }else{
+                if (children[i].id == selectNodeId) {
+                    nodeData += ''.padStart(deep, ' ')  + children[i].topic + '\n'
+                }
+            }
+        }
+    }
+    recursionNodeText(elixir.getAllData().nodeData.children, 0, false)
+    return nodeData
+}
 let scale = 1
 document.getElementById('map').onwheel = function (e) {
     if (e.wheelDelta && (e.metaKey || e.ctrlKey)) {
