@@ -24,7 +24,6 @@ $(document).ready(function () {
     elixir.init()
     $(document).attr("title", E('root').nodeObj.topic)
     $("#map").css("height", window.innerHeight)
-    nw.Window.get().showDevTools()
 })
 $(window).resize(function () {
     $("#map").css("height", window.innerHeight)
@@ -85,7 +84,9 @@ document.addEventListener("paste", function (e) {
 })
 document.addEventListener("copy", function (e) {
     if (selectNodeId != null) {
-        console.log(findNodeData(selectNodeId))
+        let tmpData = findNodeData(selectNodeId)
+        let clipboard = nw.Clipboard.get()
+        clipboard.set(tmpData, 'text')
         e.preventDefault()
     }
 })
@@ -93,7 +94,9 @@ function findNodeData(selectNodeId) {
     let nodeData = ""
     function recursionNodeText(children, deep, isCurrentNode = false) {
         for (let i = 0; i < children.length; i++) {
+            let tmpDeep = deep
             if(isCurrentNode == true){
+                tmpDeep = tmpDeep + 1
                 nodeData += ''.padStart(deep, ' ')  + children[i].topic + '\n'
             }
             if (children[i].children) {
@@ -101,8 +104,7 @@ function findNodeData(selectNodeId) {
                     nodeData += ''.padStart(deep, ' ')  + children[i].topic + '\n'
                     recursionNodeText(children[i].children, deep + 1, true)
                 } else {
-                    if(isCurrentNode)deep += 1
-                    recursionNodeText(children[i].children, deep, isCurrentNode)
+                    recursionNodeText(children[i].children, tmpDeep, isCurrentNode)
                 }
             }else{
                 if (children[i].id == selectNodeId) {
@@ -154,6 +156,11 @@ submenu.append(new nw.MenuItem({
     }
 }))
 submenu.append(new nw.MenuItem({type: 'separator'}))
+submenu.append(new nw.MenuItem({
+    label: '开发者工具', key: "d", modifiers: ctrl, click: function () {
+        nw.Window.get().showDevTools()
+    }
+}))
 submenu.append(new nw.MenuItem({
     label: '退出 Zmind', key: "q", modifiers: ctrl, click: function () {
         nw.Window.get().close()
